@@ -1,0 +1,23 @@
+[Interface]
+Address = 10.77.42.1/24
+PrivateKey = REPLACE_WITH_SERVER_PRIVATE_KEY
+ListenPort = 10099
+MTU = 1280
+PostUp = iptables -I INPUT 1 -p udp --dport 10099 -j ACCEPT
+PostUp = iptables -I FORWARD 1 -i %i ! -o %i -j REJECT
+PostUp = iptables -I FORWARD 1 -i %i -o %i -s 10.77.42.0/24 -d 10.77.42.0/24 -j ACCEPT
+PostUp = iptables -I INPUT 1 -i %i -j REJECT
+PostUp = iptables -I INPUT 1 -i %i -s 10.77.42.0/24 -p icmp --icmp-type echo-request -j ACCEPT
+PostUp = iptables -t mangle -A FORWARD -i %i -o %i -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+PostDown = iptables -D INPUT -p udp --dport 10099 -j ACCEPT
+PostDown = iptables -D FORWARD -i %i ! -o %i -j REJECT
+PostDown = iptables -D FORWARD -i %i -o %i -s 10.77.42.0/24 -d 10.77.42.0/24 -j ACCEPT
+PostDown = iptables -D INPUT -i %i -j REJECT
+PostDown = iptables -D INPUT -i %i -s 10.77.42.0/24 -p icmp --icmp-type echo-request -j ACCEPT
+PostDown = iptables -t mangle -D FORWARD -i %i -o %i -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+
+[Peer]
+PublicKey = REPLACE_WITH_PLAYER1_PUBLIC_KEY
+AllowedIPs = 10.77.42.2/32
+
+# Add one Peer per additional player with a unique address and public key.
