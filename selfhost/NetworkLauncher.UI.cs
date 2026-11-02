@@ -639,7 +639,7 @@ internal sealed class SettingsWindow : Form
     {
         IniFile ini = new IniFile(config.ModPath);
         Relay.Checked = ini.Get("NETWORK", "use_steam_network", "1") == "0"; Steam.Checked = !Relay.Checked;
-        Server.Text = ini.Get("NETWORK", "relay_server", config.Default("public_ip", "39.96.9.72"));
+        Server.Text = ini.Get("NETWORK", "relay_server", config.Default("public_ip", ""));
         Port.Text = ini.Get("NETWORK", "relay_port", config.Default("udp_port", "10099"));
         Password.Text = ini.Get("PASSWORD", "cooppassword", "");
         BlockModUpdates.Checked = ini.Get("NETWORK", "block_mod_update_checks", "1") != "0";
@@ -751,7 +751,7 @@ internal static class NetworkLauncherUI
                 LauncherConfig config = new LauncherConfig(AppDomain.CurrentDomain.BaseDirectory);
                 IniFile ini = new IniFile(config.ModPath), user = config.UserWithFallback();
                 File.WriteAllText(args[1], new JavaScriptSerializer().Serialize(new {
-                    mode = ini.Get("NETWORK", "use_steam_network", "1"), endpoint = ini.Get("NETWORK", "relay_server", config.Default("public_ip", "39.96.9.72")) + ":" + ini.Get("NETWORK", "relay_port", config.Default("udp_port", "10099")),
+                    mode = ini.Get("NETWORK", "use_steam_network", "1"), endpoint = ini.Get("NETWORK", "relay_server", config.Default("public_ip", "")) + ":" + ini.Get("NETWORK", "relay_port", config.Default("udp_port", "10099")),
                     language = config.UserValue(user, "language", "schinese"), username = config.UserValue(user, "account_name", ""), steamId = config.UserValue(user, "account_steamid", ""),
                     blockModUpdateChecks = ini.Get("NETWORK", "block_mod_update_checks", "1") != "0", gui = true, helperScripts = false
                 }), new UTF8Encoding(false));

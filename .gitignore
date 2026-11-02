@@ -14,6 +14,8 @@
 !/selfhost/ModHttpGuard.cs
 !/selfhost/launcher-ui.manifest
 !/selfhost/build-launcher-ui.ps1
+!/selfhost/build-release.py
+!/selfhost/publish-release.py
 !/selfhost/LauncherUI.Tests.cs
 !/selfhost/LauncherLayout.Tests.cs
 !/selfhost/HttpGuard.Tests.cs
@@ -25,6 +27,8 @@
 !/docs/mod-network-checks.md
 !/docs/testing.md
 !/docs/attribution.md
+!/docs/release-install.md
+!/docs/release-v0.1.0.md
 
 /server/*
 !/server/README.md

@@ -8,6 +8,12 @@
 - 原 Mod 下载页：[Seamless Co-op · Nexus Mods](https://www.nexusmods.com/eldenring/mods/510)
 - 本项目：[Necthus/EldenRingSeamlessCoopThirdPartyServer](https://github.com/Necthus/EldenRingSeamlessCoopThirdPartyServer)
 
+## 下载直接使用
+
+前往 [Releases](https://github.com/Necthus/EldenRingSeamlessCoopThirdPartyServer/releases/latest)，下载 `EldenRingSeamlessCoop-Enhanced-v0.1.0-Windows-x64.zip`。这是包含原 Mod 文件与增强启动器的客户端包，将其中的 `Game` 内容合并到实际游戏目录即可，无需自己编译。
+
+Release 只提供客户端包，不包含服务器端部署文件、真实玩家配置、密钥或逆向资料。自建模式仍需玩家自行安装 WireGuard 并导入个人配置；原作者、兼容接口与素材来源附在包内。安装或升级前请阅读 [使用说明](docs/release-install.md)，保留自己的 INI 设置。
+
 ## 功能
 
 - **Windows 原生启动器**：WinForms、系统字体、高 DPI；编辑 INI 并自动保存。
@@ -26,7 +32,7 @@
 | `server/` | 不含密钥的 Linux／Windows WireGuard 配置模板及 Linux 安装脚本 |
 | `docs/` | 架构、存档管理、联网检查、测试与来源说明 |
 
-本仓库不包含游戏本体、原 Mod DLL／启动器、Steam／GSE DLL、角色存档、真实玩家 WireGuard 配置、服务器密钥、逆向工程资料或第三方头像素材。这些本机文件不会通过本仓库分发。
+Git 源码仓库不跟踪游戏本体、第三方 DLL／启动器、存档、密钥、逆向资料或头像原图。Release 客户端包另行包含原 Mod 运行文件、已测 GSE 兼容 DLL、内嵌头像与来源说明；不含游戏本体或任何人的原 Valve 接口、存档、身份及真实隧道配置。
 
 ## 构建启动器
 
@@ -70,7 +76,7 @@
 
 启动器中填写的地址／端口会保存到 INI，**不会自动修改 WireGuard 的 Endpoint**；改变公网入口时，需要在 WireGuard 界面同步修改。`steam_settings/custom_broadcasts.txt` 填入实际玩家的虚拟 IP 和通信端口。
 
-源码为当前工作版本，保留了本地验证用的默认服务器地址；它不是对公众提供的服务。使用者必须填入自己的地址。不要把自己的密钥或联机密码提交到仓库。
+公开包不预填公网服务器地址，使用者必须填入自己的地址。不要把自己的密钥或联机密码提交到仓库。
 
 ## 当前验证范围
 
