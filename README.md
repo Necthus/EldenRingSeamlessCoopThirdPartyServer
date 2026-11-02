@@ -10,7 +10,7 @@
 
 ## 下载直接使用
 
-前往 [Releases](https://github.com/Necthus/EldenRingSeamlessCoopThirdPartyServer/releases/latest)，下载 `EldenRingSeamlessCoop-Enhanced-v0.1.0-Windows-x64.zip`。这是包含原 Mod 文件与增强启动器的客户端包，将其中的 `Game` 内容合并到实际游戏目录即可，无需自己编译。
+前往 [Releases](https://github.com/Necthus/EldenRingSeamlessCoopThirdPartyServer/releases/latest)，下载最新的 `EldenRingSeamlessCoop-Enhanced-…-Windows-x64.zip`。这是包含原 Mod 文件与增强启动器的客户端包，将其中的 `Game` 内容合并到实际游戏目录即可，无需自己编译。
 
 Release 只提供客户端包，不包含服务器端部署文件、真实玩家配置、密钥或逆向资料。自建模式仍需玩家自行安装 WireGuard 并导入个人配置；原作者、兼容接口与素材来源附在包内。安装或升级前请阅读 [使用说明](docs/release-install.md)，保留自己的 INI 设置。
 
@@ -18,6 +18,7 @@ Release 只提供客户端包，不包含服务器端部署文件、真实玩家
 
 - **Windows 原生启动器**：WinForms、系统字体、高 DPI；编辑 INI 并自动保存。
 - **网络模式切换**：选择 Steam 接口或配套兼容接口；启动前校验、备份与切换接口，提供原 Steam 接口恢复按钮。
+- **玩家发现地址列表**：自建模式下添加、编辑、删除虚拟 IPv4／域名与游戏端口，自动保存 `custom_broadcasts.txt`，首次修改备份原文件。
 - **自建中转网络**：玩家手动导入 WireGuard 配置，通过 Linux 公网服务器转发玩家间的数据；一个玩家仍担任 Host，其余为 Client。
 - **存档管理（试用）**：显示角色名、等级、时长和槽位；支持 `.sl2`／`.co2` 单角色转换、跨 SteamID 导入、已知无缝道具清理、自动备份及恢复。
 - **Mod 联网检查开关**：可阻止本次启动的游戏对已确认 GitHub 检查域名的 HTTP/HTTPS 请求；不更改系统代理、hosts 或防火墙。
@@ -74,7 +75,7 @@ Git 源码仓库不跟踪游戏本体、第三方 DLL／启动器、存档、密
 
 按 [server/README.md](server/README.md) 生成自己服务器与玩家的密钥、填入公网地址，并部署 Linux 中转。玩家端只需安装 WireGuard，通过其界面导入个人配置。
 
-启动器中填写的地址／端口会保存到 INI，**不会自动修改 WireGuard 的 Endpoint**；改变公网入口时，需要在 WireGuard 界面同步修改。`steam_settings/custom_broadcasts.txt` 填入实际玩家的虚拟 IP 和通信端口。
+启动器中填写的服务器地址／端口会保存到 INI，**不会自动修改 WireGuard 的 Endpoint**；改变公网入口时，需要在 WireGuard 界面同步修改。玩家发现列表可在自建模式下直接管理，填写实际玩家的虚拟 IP 和通信端口（通常 `47584`），保存到 `steam_settings/custom_broadcasts.txt`。
 
 公开包不预填公网服务器地址，使用者必须填入自己的地址。不要把自己的密钥或联机密码提交到仓库。
 

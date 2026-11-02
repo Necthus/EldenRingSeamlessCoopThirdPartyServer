@@ -35,7 +35,7 @@
 1. 安装 Windows 原生 [WireGuard](https://www.wireguard.com/install/)，导入并激活自己的个人 `.conf`。
 2. 在启动器选择“自建服务器”，填写自己的服务器 IP／域名和 UDP 端口（默认 10099）、联机密码、用户名、稳定且各不相同的 SteamID64，选择语言。
 3. WireGuard 的 Endpoint 应与自己的公网入口一致。启动器中的 IP／端口不会自动编辑 WireGuard 配置。
-4. 包内发现列表默认给出 `10.77.42.2–10.77.42.6:47584` 示例；若自己使用其他玩家地址／网段，请修改 `steam_settings/custom_broadcasts.txt`。每人使用不同的个人隧道密钥及 SteamID，所有人密码与游戏／Mod 版本一致。
+4. 包内发现列表默认给出 `10.77.42.2–10.77.42.6:47584` 示例；若自己使用其他玩家地址／网段，在自建模式下滚动到「玩家发现地址」，使用“添加”“更新选中”“删除选中”修改列表。地址可用玩家的虚拟 IPv4 或域名，省略端口补全 `47584`；列表修改自动保存到 `steam_settings/custom_broadcasts.txt`，下次启动生效。首次修改会备份原文件。每人使用不同的个人隧道密钥及 SteamID，所有人密码与游戏／Mod 版本一致。
 
 包内 `SeamlessCoop/network/steam_api64.relay.dll` 是已测 GSE 兼容接口，不需要另找配套 DLL。公网服务器地址、联机密码、账号身份、WireGuard 私钥均未预填，Release 不提供服务器端程序或任何人的 `.conf`。
 

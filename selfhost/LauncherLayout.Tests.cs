@@ -38,6 +38,8 @@ internal static class LauncherLayoutTests
         WindowsDpi.Initialize(); Application.EnableVisualStyles(); Application.SetCompatibleTextRenderingDefault(false);
         string root = Path.Combine(Path.GetTempPath(), "ersc-layout-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(Path.Combine(root, "SeamlessCoop"));
+        Directory.CreateDirectory(Path.Combine(root, "steam_settings"));
+        File.WriteAllText(Path.Combine(root, "steam_settings", "custom_broadcasts.txt"), "10.77.42.2:47584\n10.77.42.3:47584\n10.77.42.4:47584\n10.77.42.5:47584\n10.77.42.6:47584\n");
         File.WriteAllText(Path.Combine(root, "SeamlessCoop", "ersc_settings.ini"), "[NETWORK]\nuse_steam_network=0\n[PASSWORD]\ncooppassword=layout-test\n");
         string output = args.Length > 0 ? args[0] : Path.Combine(root, "images");
         Directory.CreateDirectory(output);

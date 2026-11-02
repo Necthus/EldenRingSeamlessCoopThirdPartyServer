@@ -12,6 +12,7 @@
 !/selfhost/SaveManager.cs
 !/selfhost/SaveManager.UI.cs
 !/selfhost/ModHttpGuard.cs
+!/selfhost/BroadcastAddresses.cs
 !/selfhost/launcher-ui.manifest
 !/selfhost/build-launcher-ui.ps1
 !/selfhost/build-release.py
@@ -29,6 +30,7 @@
 !/docs/attribution.md
 !/docs/release-install.md
 !/docs/release-v0.1.0.md
+!/docs/release-v0.1.1.md
 
 /server/*
 !/server/README.md

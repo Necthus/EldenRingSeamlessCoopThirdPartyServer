@@ -364,6 +364,7 @@ internal sealed class SettingsWindow : Form
     internal readonly TextBox Server = new TextBox(), Port = new TextBox(), Password = new TextBox(), Username = new TextBox(), SteamId = new TextBox();
     internal readonly ComboBox Language = new ComboBox();
     internal readonly CheckBox BlockModUpdates = new CheckBox();
+    internal readonly BroadcastAddressEditor Discovery;
     private readonly GroupBox relayGroup = new GroupBox();
     private readonly Label status = new SingleLineLabel();
     private readonly ToolTip tips = new ToolTip();
@@ -415,6 +416,7 @@ internal sealed class SettingsWindow : Form
         // added later at 96-DPI sizes (notably footer rows and minimum widths).
         SuspendLayout();
         config = new LauncherConfig(root);
+        Discovery = new BroadcastAddressEditor(root);
         Text = "Seamless Co-op 设置";
         using (Stream iconStream = typeof(SettingsWindow).Assembly.GetManifestResourceStream("SeamlessCoop.LauncherIcon"))
         {
@@ -504,9 +506,9 @@ internal sealed class SettingsWindow : Form
         shared.Controls.Add(updateHint, 0, 3); shared.SetColumnSpan(updateHint, 3);
         networkLayout.Controls.Add(shared, 0, 1);
         relayGroup.Text = "自建服务器与玩家身份"; relayGroup.Dock = DockStyle.Top; relayGroup.AutoSize = true; relayGroup.AutoSizeMode = AutoSizeMode.GrowAndShrink; relayGroup.Padding = new Padding(10, 10, 10, 8);
-        var fields = new TableLayoutPanel { Dock = DockStyle.Top, AutoSize = true, ColumnCount = 2, RowCount = 9 };
+        var fields = new TableLayoutPanel { Dock = DockStyle.Top, AutoSize = true, ColumnCount = 2, RowCount = 10 };
         fields.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); fields.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-        for (int i = 0; i < 9; i++) fields.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        for (int i = 0; i < 10; i++) fields.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         AddField(fields, 0, "服务器地址", Server, "服务器地址");
         AddField(fields, 1, "端口", Port, "服务器端口");
         AddField(fields, 2, "用户名", Username, "用户名");
@@ -525,6 +527,7 @@ internal sealed class SettingsWindow : Form
         };
         for (int i = 0; i < hints.Length; i++)
         { var hint = Hint(hints[i]); fields.Controls.Add(hint, 0, 5 + i); fields.SetColumnSpan(hint, 2); }
+        fields.Controls.Add(Discovery, 0, 9); fields.SetColumnSpan(Discovery, 2);
         relayGroup.Controls.Add(fields); networkLayout.Controls.Add(relayGroup, 0, 2);
         FitScrollDocument(networkScroll, networkLayout, 480);
         BuildGameplay(gameplayTab);
@@ -543,6 +546,7 @@ internal sealed class SettingsWindow : Form
         foreach (TextBox box in new TextBox[] { Server, Port, Password, Username, SteamId }) box.TextChanged += Changed;
         Language.SelectedIndexChanged += Changed; Steam.CheckedChanged += ModeChanged; Relay.CheckedChanged += ModeChanged;
         BlockModUpdates.CheckedChanged += Changed;
+        Discovery.Edited += Changed;
         foreach (CheckBox box in flags.Values) box.CheckedChanged += Changed;
         foreach (NumericUpDown number in scaling.Values) number.ValueChanged += Changed;
         overhead.SelectedIndexChanged += Changed; volume.ValueChanged += Changed;
@@ -675,6 +679,7 @@ internal sealed class SettingsWindow : Form
                 if (error != null) throw new InvalidOperationException(error);
                 if (!LauncherConfig.ValidSteamId(SteamId.Text.Trim())) throw new InvalidOperationException("SteamID 请填写有效的 SteamID64，或留空使用兼容层身份。");
             }
+            Discovery.ValidateChanges();
             // Always reread before writing: preserve unrelated settings and outside edits.
             IniFile ini = new IniFile(config.ModPath);
             ini.Set("NETWORK", "use_steam_network", Relay.Checked ? "0" : "1");
@@ -689,6 +694,9 @@ internal sealed class SettingsWindow : Form
             ini.Set("GAMEPLAY", "overhead_player_display", overhead.SelectedIndex.ToString());
             ini.Set("GAMEPLAY", "default_boot_master_volume", volume.Value.ToString());
             // Steam mode never creates or rewrites the compatibility user config.
+            // Discovery is saved only after an explicit list edit, including
+            // when the user switches mode during the autosave debounce.
+            Discovery.SaveChanges();
             if (Relay.Checked)
             {
                 IniFile user = new IniFile(config.UserPath);

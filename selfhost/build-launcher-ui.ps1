@@ -1,6 +1,6 @@
 param([switch]$BuildTests, [string]$IconPath)
 $ErrorActionPreference = 'Stop'
-$launcherSources = @('NetworkLauncher.UI.cs', 'SaveManager.cs', 'SaveManager.UI.cs', 'ModHttpGuard.cs') | ForEach-Object { Join-Path $PSScriptRoot $_ }
+$launcherSources = @('NetworkLauncher.UI.cs', 'SaveManager.cs', 'SaveManager.UI.cs', 'ModHttpGuard.cs', 'BroadcastAddresses.cs') | ForEach-Object { Join-Path $PSScriptRoot $_ }
 $launcherCompiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 $launcherIcon = if ($IconPath) { (Resolve-Path -LiteralPath $IconPath).Path } else { Join-Path $PSScriptRoot 'launcher-assets\anon.ico' }
 $launcherOptions = @('/nologo', '/platform:x64', '/optimize+', '/codepage:65001', '/reference:System.ServiceProcess.dll', '/reference:System.Web.Extensions.dll', '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll', ('/win32manifest:' + (Join-Path $PSScriptRoot 'launcher-ui.manifest')))

@@ -37,6 +37,8 @@ block_mod_update_checks = 1
 
 自建模式所需缓存路径：`SeamlessCoop/network/steam_api64.relay.dll`；原 Steam 接口备份路径：`SeamlessCoop/network/steam_api64.steam.dll`。这两个文件不在本仓库内。
 
+「玩家发现地址」列表读取 `steam_settings/custom_broadcasts.txt`。选择条目后在输入框编辑并点击“更新选中”；新增点击“添加”，删除点击“删除选中”。输入可为 `10.77.42.3:47584` 或域名，省略端口补全 `47584`。提交列表修改后约 700 ms 自动保存，下次启动游戏生效。首次写入原文件时保留 `.launcher.bak`，保留原 UTF-8 BOM、换行和注释；外部修改冲突时拒绝覆盖，可“重新读取”。未编辑列表时不会改写该文件，Steam 模式也不会自动创建发现列表。
+
 ## 核心限制
 
 - 地址／端口输入不自动管理 WireGuard 隧道，玩家通过 GUI 手动导入、激活和编辑。
