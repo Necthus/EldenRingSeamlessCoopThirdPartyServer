@@ -61,7 +61,7 @@ def main():
     else:
         if release["target_commitish"] != commit:
             raise ValueError("Draft commit differs from current HEAD")
-        release = call(base + "/releases/" + str(release["id"]), "PATCH", json.dumps({"body": notes}, ensure_ascii=False).encode("utf-8"))
+        release = call(base + "/releases/" + str(release["id"]), "PATCH", json.dumps({"tag_name": args.tag, "body": notes}, ensure_ascii=False).encode("utf-8"))
     # One client ZIP only. Never upload deployment files or extra local trees.
     assets = call(base + "/releases/" + str(release["id"]) + "/assets")
     if any(item["name"] != asset.name for item in assets):
@@ -77,7 +77,10 @@ def main():
     if remote_digest != "sha256:" + fingerprint:
         raise ValueError("GitHub uploaded asset SHA-256 mismatch or unavailable")
     if args.publish:
-        release = call(base + "/releases/" + str(release["id"]), "PATCH", json.dumps({"draft": False}).encode("utf-8"))
+        release = call(base + "/releases/" + str(release["id"]), "PATCH", json.dumps({"tag_name": args.tag, "target_commitish": commit, "draft": False}).encode("utf-8"))
+        if release["tag_name"] != args.tag:
+            raise ValueError("Published Release tag differs from requested tag")
+        uploaded = next(item for item in call(base + "/releases/" + str(release["id"]) + "/assets") if item["name"] == asset.name)
     print(json.dumps({"status": "published" if not release["draft"] else "draft_ready", "url": release["html_url"],
         "id": release["id"], "tag": release["tag_name"], "asset": asset.name,
         "download_url": uploaded["browser_download_url"], "bytes": uploaded["size"], "sha256": fingerprint}, ensure_ascii=False, indent=2))
